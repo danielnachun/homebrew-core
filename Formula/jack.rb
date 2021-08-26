@@ -29,9 +29,11 @@ class Jack < Formula
   depends_on "python@3.9"
 
   def install
-    # See https://github.com/jackaudio/jack2/issues/640#issuecomment-723022578
-    ENV.append "LDFLAGS", "-Wl,-compatibility_version,1" if MacOS.version <= :high_sierra
-    ENV.append "LDFLAGS", "-Wl,-current_version,#{version}" if MacOS.version <= :high_sierra
+    on_macos do
+      # See https://github.com/jackaudio/jack2/issues/640#issuecomment-723022578
+      ENV.append "LDFLAGS", "-Wl,-compatibility_version,1" if MacOS.version <= :high_sierra
+      ENV.append "LDFLAGS", "-Wl,-current_version,#{version}" if MacOS.version <= :high_sierra
+    end
     system Formula["python@3.9"].opt_bin/"python3", "./waf", "configure", "--prefix=#{prefix}"
     system Formula["python@3.9"].opt_bin/"python3", "./waf", "build"
     system Formula["python@3.9"].opt_bin/"python3", "./waf", "install"
