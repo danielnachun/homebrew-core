@@ -49,6 +49,31 @@ class Qt < Formula
   uses_from_macos "perl"
   uses_from_macos "zlib"
 
+  on_linux do
+    depends_on "at-spi2-core"
+    depends_on "fontconfig"
+    depends_on "gcc"
+    depends_on "gperf"
+    depends_on "libheif"
+    depends_on "libxkbcommon"
+    depends_on "libice"
+    depends_on "libsm"
+    depends_on "libxcomposite"
+    depends_on "libdrm"
+    depends_on "mesa"
+    depends_on "pulseaudio"
+    depends_on "sdl2"
+    depends_on "systemd"
+    depends_on "xcb-util"
+    depends_on "xcb-util-image"
+    depends_on "xcb-util-keysyms"
+    depends_on "xcb-util-renderutil"
+    depends_on "xcb-util-wm"
+    depends_on "wayland"
+  end
+
+  fails_with gcc: "5"
+
   def install
     # FIXME: See https://bugreports.qt.io/browse/QTBUG-89559
     # and https://codereview.qt-project.org/c/qt/qtbase/+/327393
@@ -109,10 +134,12 @@ class Qt < Formula
       include.install_symlink path => path.parent.basename(".framework")
     end
 
-    mkdir libexec
-    Pathname.glob("#{bin}/*.app") do |app|
-      mv app, libexec
-      bin.write_exec_script "#{libexec/app.stem}.app/Contents/MacOS/#{app.stem}"
+    on_macos do
+      mkdir libexec
+      Pathname.glob("#{bin}/*.app") do |app|
+        mv app, libexec
+        bin.write_exec_script "#{libexec/app.stem}.app/Contents/MacOS/#{app.stem}"
+      end
     end
   end
 
