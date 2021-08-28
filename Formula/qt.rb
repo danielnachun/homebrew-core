@@ -86,7 +86,6 @@ class Qt < Formula
 
       -prefix #{HOMEBREW_PREFIX}
       -extprefix #{prefix}
-      -sysroot #{MacOS.sdk_path}
 
       -archdatadir share/qt
       -datadir share/qt
@@ -101,6 +100,10 @@ class Qt < Formula
       -no-sql-odbc
       -no-sql-psql
     ]
+
+    on_macos do
+      config_args << "-sysroot #{MacOS.sdk_path}"
+    end
 
     # TODO: remove `-DFEATURE_qt3d_system_assimp=ON`
     # and `-DTEST_assimp=ON` when Qt 6.2 is released.
