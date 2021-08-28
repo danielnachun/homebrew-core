@@ -25,6 +25,7 @@ class PopplerQt5 < Formula
   depends_on "cairo"
   depends_on "fontconfig"
   depends_on "freetype"
+  depends_on "gcc"
   depends_on "gettext"
   depends_on "glib"
   depends_on "jpeg"
@@ -37,6 +38,8 @@ class PopplerQt5 < Formula
 
   uses_from_macos "gperf" => :build
   uses_from_macos "curl"
+
+  fails_with gcc: "5"
 
   resource "font-data" do
     url "https://poppler.freedesktop.org/poppler-data-0.4.10.tar.gz"
